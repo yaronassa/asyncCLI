@@ -1,4 +1,4 @@
-import {cliLogger} from "async-cli/lib/cliLogger";
+import {cliLogger} from "yargs-async-cli/lib/cliLogger";
 
 interface IResourceAllocation {
     id: number,

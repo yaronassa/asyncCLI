@@ -1,6 +1,6 @@
-import {CLI, IBaseCLIArgs} from "async-cli/lib/cli";
-import {cliLogger} from "async-cli/lib/cliLogger";
-import {Argv} from "async-cli/lib/abstractCLICommand";
+import {CLI, IBaseCLIArgs} from "yargs-async-cli/lib/cli";
+import {cliLogger} from "yargs-async-cli/lib/cliLogger";
+import {Argv} from "yargs-async-cli/lib/abstractCLICommand";
 
 // Usually you'll have some base scheme for shared command options
 interface IBaseExampleCLIArgs extends IBaseCLIArgs {
@@ -8,6 +8,7 @@ interface IBaseExampleCLIArgs extends IBaseCLIArgs {
 }
 
 class ExampleCLI extends CLI {
+
     protected addSharedOptions(args: Argv): Argv {
         return args
             .option('verboseLogging', {

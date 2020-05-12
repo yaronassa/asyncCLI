@@ -1,5 +1,5 @@
 import {IResourceAllocation, ResourceHelper} from "../helpers/resourceHelper";
-import {AbstractCLICommand} from "async-cli/lib/abstractCLICommand";
+import {AbstractCLICommand} from "yargs-async-cli/lib/abstractCLICommand";
 
 
  // Might be useful to create your own base command to allow for shared services and resources

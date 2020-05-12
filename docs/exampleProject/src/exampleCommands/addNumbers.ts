@@ -1,5 +1,5 @@
 import {AbstractExampleCLICommand} from "./abstractExampleCLICommand";
-import {Argv} from "async-cli/lib/abstractCLICommand";
+import {Argv} from "yargs-async-cli/lib/abstractCLICommand";
 import {IBaseExampleCLIArgs} from "../exampleCLI";
 
 // Each command will have a different set of arguments and options
