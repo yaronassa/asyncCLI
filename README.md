@@ -1,4 +1,4 @@
-# Async CLI
+# yargs Async CLI
 
 [Project on GitHub](https://github.com/yaronassa/asyncCLI/)
 
@@ -15,7 +15,7 @@ It gives you
 
 ## Installation
 
-`npm i async-cli` / `yarn i async-cli` / whatever the cool kids use these days.
+`npm i yargs-async-cli` / `yarn i yargs-async-cli` / whatever the cool kids use these days.
 
 ## TL;DR Usage
 
