@@ -1,0 +1,210 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>AsyncCLI Package</title>
+	<meta name="description" content="Documentation for AsyncCLI Package">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">AsyncCLI Package</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>AsyncCLI Package</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#async-cli" id="async-cli" style="color: inherit; text-decoration: none;">
+					<h1>Async CLI</h1>
+				</a>
+				<p><a href="https://github.com/yaronassa/asyncCLI">Project on GitHub</a></p>
+				<a href="#description" id="description" style="color: inherit; text-decoration: none;">
+					<h2>Description</h2>
+				</a>
+				<p>Async-CLI turns <a href="https://github.com/yargs/yargs"><em>yargs</em></a> into <em>yaaaaaaaaaargs</em>. It&#39;s an opinionated yargs wrapper, allowing you to easily create async-based CLIs, while still enjoying yargs pirate-y goodness.</p>
+				<p>It gives you</p>
+				<ul>
+					<li>All the parsing, grouping and options you know and love in yargs</li>
+					<li>Built in global logger (easily overridable)</li>
+					<li>Properly propagated async-actions</li>
+					<li>Very lean boilerplate - Most of the nags are under the hood</li>
+				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p><code>npm i async-cli</code> / <code>yarn i async-cli</code> / whatever the cool kids use these days.</p>
+				<a href="#tldr-usage" id="tldr-usage" style="color: inherit; text-decoration: none;">
+					<h2>TL;DR Usage</h2>
+				</a>
+				<p>An Async-CLI project consists of two parts</p>
+				<ul>
+					<li>Command files that control how each CLI command should be parsed and executed (these are basically <a href="https://github.com/yargs/yargs/blob/master/docs/advanced.md#providing-a-command-module">yargs command modules</a>). </li>
+					<li>The code file that will be actually run by node - it creates a <code>CLI</code> object and invokes its <code>.runFromArgs</code> method.</li>
+				</ul>
+				<p>Below are simple implementation examples* for both parts:</p>
+				<p><sup>*All examples are given in typescript. For regular javascript, just use require instead of imports (e.g. <code>const CLI = require(&#39;async-cli/lib/cli&#39;).CLI</code>).</sup></p>
+				<a href="#build-your-command-files-by-extending-abstractclicommand" id="build-your-command-files-by-extending-abstractclicommand" style="color: inherit; text-decoration: none;">
+					<h3>Build your command files by extending <code>AbstractCLICommand</code></h3>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {AbstractCLICommand, Argv, IBaseCLIArgs} <span class="hljs-keyword">from</span> <span class="hljs-string">"async-cli/lib/abstractCLICommand"</span>;
+
+<span class="hljs-keyword">interface</span> IMyCommandCLIArgs <span class="hljs-keyword">extends</span> IBaseCLIArgs { myOption: <span class="hljs-built_in">string</span> }
+
+<span class="hljs-keyword">class</span> MyCommand <span class="hljs-keyword">extends</span> AbstractCLICommand {
+    <span class="hljs-keyword">protected</span> command = <span class="hljs-string">'MyCommandName'</span> <span class="hljs-comment">// You can add aliases and a description</span>
+
+    <span class="hljs-keyword">protected</span> buildCommandArgs(args: Argv): Argv {
+        <span class="hljs-comment">// Chain any yargs parser manipulation. For example</span>
+        <span class="hljs-keyword">return</span> args
+                .option(<span class="hljs-string">'myOption'</span>, {<span class="hljs-keyword">default</span>: <span class="hljs-string">'someValue'</span>});
+    }
+
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">async</span> handleCommand(args: IMyCommandCLIArgs): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">any</span>&gt; {
+        <span class="hljs-comment">// Do some async things</span>
+    }   
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> MyCommand; <span class="hljs-comment">//This is important</span></code></pre>
+				<a href="#then-add-the-code-file-that-will-actually-be-run" id="then-add-the-code-file-that-will-actually-be-run" style="color: inherit; text-decoration: none;">
+					<h3>Then, add the code file that will actually be run</h3>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {CLI} <span class="hljs-keyword">from</span> <span class="hljs-string">'async-cli/lib/cli'</span>;
+
+<span class="hljs-keyword">const</span> cli = <span class="hljs-keyword">new</span> CLI({commandsDir: <span class="hljs-string">'./src/cliCommands'</span>}); <span class="hljs-comment">// Your command files directory</span>
+<span class="hljs-keyword">await</span> cli.runFromArgs();</code></pre>
+				<a href="#beyond-the-tldr" id="beyond-the-tldr" style="color: inherit; text-decoration: none;">
+					<h2>Beyond the TL;DR</h2>
+				</a>
+				<ul>
+					<li>Read the <a href="docs/usageGuide.md">basic usage guide</a></li>
+					<li>Go through the <a href="docs/exampleProject/exampleProject.md">example project</a></li>
+					<li>Delve into <a href="docs/extendingGuide.md">extending and customizing</a> the CLI</li>
+					<li>Browse the <a href="https://yaronassa.github.io/asyncCLI">code documentation</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/abstractclicommand.html" class="tsd-kind-icon">AbstractCLICommand</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/cli.html" class="tsd-kind-icon">CLI</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/clilogger.html" class="tsd-kind-icon">CLILogger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ibasecliargs.html" class="tsd-kind-icon">IBaseCLIArgs</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icliinitoptions.html" class="tsd-kind-icon">ICLIInit<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/iclilogger.html" class="tsd-kind-icon">ICLILogger</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/icliloggeroptions.html" class="tsd-kind-icon">ICLILogger<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ipendingpromise.html" class="tsd-kind-icon">IPending<wbr>Promise</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#clilogger" class="tsd-kind-icon">cli<wbr>Logger</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
