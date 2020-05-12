@@ -1,6 +1,6 @@
 # Async CLI
 
-[Project on GitHub](https://github.com/yaronassa/asyncCLI)
+[Project on GitHub](https://github.com/yaronassa/asyncCLI/)
 
 ## Description
 
@@ -66,7 +66,7 @@ await cli.runFromArgs();
 * Read the [basic usage guide](docs/usageGuide.md)
 * Go through the [example project](docs/exampleProject/exampleProject.md)
 * Delve into [extending and customizing](docs/extendingGuide.md) the CLI
-* Browse the [code documentation](https://yaronassa.github.io/asyncCLI)
+* Browse the [code documentation](https://yaronassa.github.io/asyncCLI/)
 
 
 

@@ -54,4 +54,4 @@ When creating the [ExampleCLI](src/exampleCLI.ts) object, the logs root path is 
 Note that you can use the `{RUN_ID}` notation for a timestamp representing the run start.
 Other log options are available, as well as the possibility to provide your own logger object.
 
-See [The code documentation](https://yassa.github.io/asyncCLI/interfaces/icliinitoptions.html#loggerconfiguration) for details.
+See [The code documentation](https://yaronassa.github.io/asyncCLI/interfaces/icliinitoptions.html#loggerconfiguration) for details.

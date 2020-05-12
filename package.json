@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yaronassa/asyncCLI"
+    "url": "https://github.com/yaronassa/asyncCLI/"
   },
   "dependencies": {
     "moment": "^2.24.0",
