@@ -1,0 +1,6 @@
+{
+  "inputFiles": ["src/"],
+  "name": "AsyncCLI Package",
+  "mode": "file",
+  "out": "docs/codeDocumentation"
+}
