@@ -2,6 +2,8 @@ import {Arguments, Argv, CommandModule} from "yargs";
 import {IBaseCLIArgs, IPendingPromise} from "./cli";
 import {CLILogger} from "./cliLogger";
 
+type ExecutionPhase = 'pre' | 'main' | 'post';
+
 /**
  * Abstract CLI command construct <br/>
  * Extend this class to write your own commands
@@ -40,6 +42,7 @@ abstract class AbstractCLICommand {
             command: this.command,
             describe: this.describe,
             handler: async (args: Arguments<{}>) => {
+                let phase: ExecutionPhase = 'pre';
                 this.cliLogger.log(`Executing CLI command: ${this.command}`);
                 const {_, $0, ...argsToReport} = args as IBaseCLIArgs;
                 const argsReport = this.getArgsReport(argsToReport as IBaseCLIArgs);
@@ -47,12 +50,17 @@ abstract class AbstractCLICommand {
 
                 try {
                     await this.preCommand();
+                    phase = 'main';
                     const result = await this.handleCommand(args as IBaseCLIArgs);
+                    phase = 'post';
+                    await this.postCommand(phase);
                     this.completionPromise.finishedOK(result);
                 } catch (e) {
-                    this.completionPromise.finishedError(e);
-                } finally {
-                    await this.postCommand();
+                    try {
+                        if (phase !== "post") await this.postCommand(phase, e);
+                    } finally {
+                        this.completionPromise.finishedError(e);
+                    }
                 }
             }
 
@@ -99,6 +107,7 @@ abstract class AbstractCLICommand {
 
     /**
      * Run pre-command setup
+     * Thrown errors will skip main command execution and fail the command
      */
     protected async preCommand() {
         return;
@@ -106,8 +115,12 @@ abstract class AbstractCLICommand {
 
     /**
      * Run post-command teardown
+     * Will be called even if pre-command throws and the main command execution is skipped
+     * Thrown errors will fail the command
+     * @param executionPhase The current execution phase
+     * @param executionError The error thrown by the command (if applicable)
      */
-    protected async postCommand() {
+    protected async postCommand(executionPhase: ExecutionPhase, executionError?: Error) {
         return;
     }
 
