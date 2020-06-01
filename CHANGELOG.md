@@ -2,6 +2,10 @@
 
 ## Current (unreleased)
 
+## 1.0.2 (2020-06-01)
+
+- Add args property to AbstractCLICommand
+
 ## 1.0.1 (2020-06-01)
 
 - Fix but where post-commands may leak rejections and happen after the command returns

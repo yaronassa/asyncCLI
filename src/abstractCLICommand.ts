@@ -9,6 +9,8 @@ type ExecutionPhase = 'pre' | 'main' | 'post';
  * Extend this class to write your own commands
  */
 abstract class AbstractCLICommand {
+    protected args: Arguments | undefined;
+
     /**
      * The CLI run logger
      */
@@ -42,6 +44,7 @@ abstract class AbstractCLICommand {
             command: this.command,
             describe: this.describe,
             handler: async (args: Arguments<{}>) => {
+                this.args = args;
                 let phase: ExecutionPhase = 'pre';
                 this.cliLogger.log(`Executing CLI command: ${this.command}`);
                 const {_, $0, ...argsToReport} = args as IBaseCLIArgs;
